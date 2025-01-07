@@ -24,6 +24,19 @@ module.exports = (async function() {
         }
     });
 
+    // Event Handler for Event Based Replication
+    S4bupa.on('BusinessPartner.Changed', async ({ event, data}) => {
+        console.log('<< received', event, data);
+        const { BusinessPartner: ID } = data;
+        const customer = await S4bupa.read(Customers, ID);
+        let replicated = await db.exists(Customers, ID);
+        if(replicated) {
+            await UPDATE(Customers, ID).with(customer);
+        } else {
+            await INSERT.into(Customers).entries(customer);
+        }
+    })
+
 
 })
 
