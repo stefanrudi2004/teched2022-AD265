@@ -7,6 +7,7 @@ entity Customers as projection on S4.A_BusinessPartner {
     BusinessPartnerFullName as name
 };
 
+// UI
 annotate Customers with @UI.Identification : [{ Value:name }];
 annotate Customers with @cds.odata.valuelist;
 annotate Customers with {

@@ -10,6 +10,9 @@ extend incmgt.Incidents with {
     customer : Association to s4.simple.Customers;
 }
 
+// Turns Customers View into a table 
+annotate s4.simple.Customers with @cds.persistence: { table,skip:false };
+
 // import annotations from rest of the application
 using from '../app/fiori';
 
