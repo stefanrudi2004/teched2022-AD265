@@ -9,3 +9,31 @@ extend service IncidentsService with {
 extend incmgt.Incidents with {
     customer : Association to s4.simple.Customers;
 }
+
+// import annotations from rest of the application
+using from '../app/fiori';
+
+annotate IncidentsService.Incidents with @(
+  UI: {
+    // insert table column
+    LineItem : [
+      ...up to { Value: title },
+      { Value: customer.name, Label: 'Customer' },
+      ...
+    ],
+
+    // insert customer to field group
+    FieldGroup #GeneralInformation : {
+      Data: [
+        { Value: customer_ID, Label: 'Customer'},
+        ...
+      ]
+    },
+  }
+);
+
+// for an incident's customer, show both name and ID
+annotate IncidentsService.Incidents:customer with @Common: {
+  Text: customer.name,
+  TextArrangement: #TextFirst
+};
